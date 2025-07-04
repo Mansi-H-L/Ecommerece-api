@@ -31,9 +31,9 @@ cd ecommerce-api
 ```
 
 ### 2. Install dependencies
-     ```bash 
+```bash 
      npm install 
-     ```
+```
 
 ### 3. Setup environment variables
 ```bash 
