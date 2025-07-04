@@ -32,7 +32,7 @@ cd ecommerce-api
 
 ### 2. Install dependencies
 ```bash 
-     npm install 
+npm install 
 ```
 
 ### 3. Setup environment variables
@@ -45,7 +45,7 @@ Create a .env file in the root directory:
 
 ### 4. Start the server
 ```bash 
-     npm start
+npm start
 ```
 
 
