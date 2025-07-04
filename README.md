@@ -28,20 +28,25 @@ This project is a basic E-commerce REST API built using Node.js, Express, and Mo
 ```bash
 git clone https://github.com/your-username/ecommerce-api.git
 cd ecommerce-api
+```
 
+### 2. Install dependencies
+     ```bash 
+     npm install 
+     ```
 
-2. Install dependencies
-     npm install
-
-3. Setup environment variables
+### 3. Setup environment variables
+```bash 
 Create a .env file in the root directory:
     PORT=5000
     MONGO_URI=mongodb://localhost:27017/ecommerce
     JWT_SECRET=your_jwt_secret
+```
 
-
-4. Start the server
+### 4. Start the server
+```bash 
      npm start
+```
 
 
 ##  API Endpoints
