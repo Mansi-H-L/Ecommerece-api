@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ecommerce Frontend</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input, button { margin: 5px; }
+    textarea { width: 100%; height: 100px; }
+  </style>
+</head>
+<body>
+
+  <h1>🛍️ Simple E-commerce Frontend</h1>
+
+  <!-- Register -->
+  <h3>Register</h3>
+  <input type="text" id="regUsername" placeholder="Username">
+  <input type="password" id="regPassword" placeholder="Password">
+  <select id="regRole">
+    <option value="customer">Customer</option>
+    <option value="admin">Admin</option>
+  </select>
+  <button onclick="register()">Register</button>
+
+  <!-- Login -->
+  <h3>Login</h3>
+  <input type="text" id="loginUsername" placeholder="Username">
+  <input type="password" id="loginPassword" placeholder="Password">
+  <button onclick="login()">Login</button>
+
+  <!-- Token Display -->
+  <h3>JWT Token (after login)</h3>
+  <textarea id="tokenArea" readonly></textarea>
+
+  <!-- View Products -->
+  <h3>Products</h3>
+  <button onclick="getProducts()">View Products</button>
+  <pre id="productList"></pre>
+
+  <!-- Add Product -->
+  <h3>Add Product (Admin Only)</h3>
+  <input type="text" id="prodName" placeholder="Product Name">
+  <input type="number" id="prodPrice" placeholder="Price">
+  <input type="text" id="prodCategory" placeholder="Category">
+  <button onclick="addProduct()">Add Product</button>
+  <pre id="addProductResult"></pre>
+
+  <script>
+    let token = "";
+
+    async function register() {
+      const res = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: document.getElementById("regUsername").value,
+          password: document.getElementById("regPassword").value,
+          role: document.getElementById("regRole").value
+        })
+      });
+      alert("Registered: " + res.status);
+    }
+
+    async function login() {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: document.getElementById("loginUsername").value,
+          password: document.getElementById("loginPassword").value
+        })
+      });
+
+      const data = await res.json();
+      token = data.token;
+      document.getElementById("tokenArea").value = token || "Invalid login";
+    }
+
+    async function getProducts() {
+      const res = await fetch("http://localhost:5000/api/products");
+      const data = await res.json();
+      document.getElementById("productList").innerText = JSON.stringify(data, null, 2);
+    }
+
+    async function addProduct() {
+      const res = await fetch("http://localhost:5000/api/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({
+          name: document.getElementById("prodName").value,
+          price: parseFloat(document.getElementById("prodPrice").value),
+          category: document.getElementById("prodCategory").value
+        })
+      });
+
+      const data = await res.json();
+      document.getElementById("addProductResult").innerText = JSON.stringify(data, null, 2);
+    }
+  </script>
+
+</body>
+</html>
